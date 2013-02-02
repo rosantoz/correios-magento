@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Rosantoz_Correios>
+            <version>0.1.0</version>
+        </Rosantoz_Correios>
+    </modules>
+    <global>
+        <models>
+            <rosantoz_correios>
+                <class>Rosantoz_Correios_Model</class>
+            </rosantoz_correios>
+        </models>
+        <resources>
+            <rosantoz_correios_setup>
+                <setup>
+                    <module>Rosantoz_Correios</module>
+                </setup>
+            </rosantoz_correios_setup>
+        </resources>
+        <sales>
+            <shipping>
+                <carriers>
+                    <rosantoz_correios>
+                        <class>Rosantoz_Correios_Model_Carrier_Correios</class>
+                    </rosantoz_correios>
+                </carriers>
+            </shipping>
+        </sales>
+    </global>
+
+    <default>
+        <carriers>
+            <rosantoz_correios>
+                <active>0</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Rosantoz_Correios_Model_Carrier_Correios</model>
+                <name>Rosantoz Correios</name>
+                <title>Correios</title>
+                <specificerrmsg>
+                    This shipping method is currently unavailable.
+                    If you would like to ship using this shipping
+                    method, please contact us.
+                </specificerrmsg>
+                <handling_type>F</handling_type>
+            </rosantoz_correios>
+        </carriers>
+    </default>
+
+</config>

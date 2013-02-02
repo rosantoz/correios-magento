@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <rosantoz_correios translate="label" module="shipping">
+                    <label>Rosantoz Correios</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Habilitar Módulo</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+
+                        <servicos translate="label">
+                            <label>Utilizar</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>Rosantoz_Correios_Model_Source_Services</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </servicos>
+
+                        <prazo translate="label">
+                            <label>Exibir Prazo</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </prazo>
+
+                        <mao_propria translate="label">
+                            <label>Usar Mão Própria</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </mao_propria>
+
+                        <aviso_recebimento translate="label">
+                            <label>Usar Aviso de Recebimento (A.R.)</label>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </aviso_recebimento>
+
+                        <valor_declarado translate="label">
+                            <label>Usar Valor Declarado</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </valor_declarado>
+
+                        <formato translate="label">
+                            <label>Formato da Encomenda</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Rosantoz_Correios_Model_Source_Formats</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </formato>
+
+                    </fields>
+                </rosantoz_correios>
+            </groups>
+        </carriers>
+    </sections>
+</config>
