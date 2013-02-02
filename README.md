@@ -27,4 +27,4 @@ Todos seus produtos tem que ter o peso cadastrado em Kg.
 English Description
 ===========
 
-Correios is the most popular shipping carrier in Brazil. This module allows magento users to get shipping rates from Correios. Since Correios ships to Brazil only, all the long descripts was made in portuguese. Let me know if you have any questions. Contributions are welcome.
+Correios is the most popular shipping carrier in Brazil. This module allows magento users to get shipping rates from Correios. Since Correios ships to Brazil only, the documentation is in portuguese. Let me know if you have any questions. Contributions are welcome.
