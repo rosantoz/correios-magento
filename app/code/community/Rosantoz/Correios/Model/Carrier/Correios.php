@@ -43,26 +43,15 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        // skip if not enabled
-        if (!Mage::getStoreConfig('carriers/' . $this->_code . '/active')) {
-            Mage::log('Rosantoz_Correios: module disabled');
+        // pré-condições
+        if(!$this->hasPreConditionsPassed($request)) {
             return false;
         }
-
-        // skip if outside Brazil
-        if ($request->getDestCountryId() != 'BR') {
-            Mage::log('Rosantoz_Correios: delivery address is outside Brazil');
-            return false;
-        }
-
-        // skip if the packet weight is over 30 kilos
-        if ($request->getPackageWeight() >= 30) {
-            Mage::log('Rosantoz_Correios: package is over 30 kilos');
-        }
-
 
         $methods = $this->getMethods();
         $result  = Mage::getModel('shipping/rate_result');
+
+
 
         foreach ($methods as $rMethod) {
             $method        = Mage::getModel('shipping/rate_result_method');
@@ -81,23 +70,24 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
                 ->setServico($rMethod);
 
             // Usar mão própria?
-            if(Mage::getStoreConfig('carriers/' . $this->_code . '/mao_propria')) {
+            if (Mage::getStoreConfig('carriers/' . $this->_code . '/mao_propria')) {
                 $correios->setMaoPropria(true);
             }
 
             // Usar aviso de recebimento?
-            if(Mage::getStoreConfig('carriers/' . $this->_code . '/aviso_recebimento')) {
+            if (Mage::getStoreConfig('carriers/' . $this->_code . '/aviso_recebimento')) {
                 $correios->setAvisoDeRecebimento(true);
             }
 
             // Usar valor declarado?
-            if(Mage::getStoreConfig('carriers/' . $this->_code . '/valor_declarado')) {
+            if (Mage::getStoreConfig('carriers/' . $this->_code . '/valor_declarado')) {
                 $correios->setValorDeclarado($request->getPackageValue());
             }
 
+            // Calcula o frete
             $frete = $correios->dados();
 
-            // loggin error
+            // erros
             if ($frete['erro'] != 0) {
                 Mage::log('Rosantoz_Correios: ' . $frete['msg_erro'] . '');
             }
@@ -141,5 +131,36 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
         $servicesList = Mage::getStoreConfig('carriers/' . $this->_code . '/servicos');
         $arr          = explode(',', $servicesList);
         return $arr;
+    }
+
+    /**
+     * Verifica se as pré-condições para cálculo do frete estão satisfeitas
+     *
+     * @param Mage_Shipping_Model_Rate_Request $request Informações do pedido
+     * 
+     * @return bool
+     */
+    protected function hasPreConditionsPassed(Mage_Shipping_Model_Rate_Request $request)
+    {
+        // ignora e o módulo estiver desabilitado
+        if (!Mage::getStoreConfig('carriers/' . $this->_code . '/active')) {
+            Mage::log('Rosantoz_Correios: module disabled');
+            return false;
+        }
+
+        // ignora se o país de destino não for o Brasil
+        if ($request->getDestCountryId() != 'BR') {
+            Mage::log('Rosantoz_Correios: delivery address is outside Brazil');
+            return false;
+        }
+
+        // ignora se a encomenda tem mais de 30kg
+        if ($request->getPackageWeight() >= 30) {
+            Mage::log('Rosantoz_Correios: package is over 30 kilos');
+            return false;
+        }
+
+        return true;
+
     }
 }
