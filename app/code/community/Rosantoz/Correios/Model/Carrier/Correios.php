@@ -92,7 +92,7 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
 
             // Usar valor declarado?
             if(Mage::getStoreConfig('carriers/' . $this->_code . '/valor_declarado')) {
-                $correios->setAvisoDeRecebimento(true);
+                $correios->setValorDeclarado($request->getPackageValue());
             }
 
             $frete = $correios->dados();
