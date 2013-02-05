@@ -137,7 +137,7 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
      * Verifica se as pré-condições para cálculo do frete estão satisfeitas
      *
      * @param Mage_Shipping_Model_Rate_Request $request Informações do pedido
-     * 
+     *
      * @return bool
      */
     protected function hasPreConditionsPassed(Mage_Shipping_Model_Rate_Request $request)
