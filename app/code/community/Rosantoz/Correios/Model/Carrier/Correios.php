@@ -78,8 +78,14 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
                 ->setLargura($request->getPackageWidth())
                 ->setComprimento($request->getPackageDepth())
                 ->setFormatoDaEncomenda($packageFormat)
-                ->setServico($rMethod)
-                ->dados();
+                ->setServico($rMethod);
+
+            // Usar mão própria?
+            if(Mage::getStoreConfig('carriers/' . $this->_code . '/mao_propria')) {
+                $correios->setMaoPropria(true);
+            }
+
+            $frete = $correios->dados();
 
             // loggin error
             if ($frete['erro'] != 0) {
