@@ -85,6 +85,16 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
                 $correios->setMaoPropria(true);
             }
 
+            // Usar aviso de recebimento?
+            if(Mage::getStoreConfig('carriers/' . $this->_code . '/aviso_recebimento')) {
+                $correios->setAvisoDeRecebimento(true);
+            }
+
+            // Usar valor declarado?
+            if(Mage::getStoreConfig('carriers/' . $this->_code . '/valor_declarado')) {
+                $correios->setAvisoDeRecebimento(true);
+            }
+
             $frete = $correios->dados();
 
             // loggin error
