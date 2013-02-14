@@ -1,0 +1,13 @@
+<config>
+    <!-- ... -->
+    <modules>
+        <!-- ... -->
+        <!-- declare YourCompany_NewModule module -->
+        <Rosantoz_Correios>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Rosantoz_Correios>
+        <!-- ... -->
+    </modules>
+    <!-- ... -->
+</config>
