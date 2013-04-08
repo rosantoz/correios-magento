@@ -44,13 +44,12 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
         // pré-condições
-        if(!$this->hasPreConditionsPassed($request)) {
+        if (!$this->hasPreConditionsPassed($request)) {
             return false;
         }
 
         $methods = $this->getMethods();
         $result  = Mage::getModel('shipping/rate_result');
-
 
 
         foreach ($methods as $rMethod) {
@@ -92,6 +91,10 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
                 Mage::log('Rosantoz_Correios: ' . $frete['msg_erro'] . '');
             }
 
+            $frete['valor'] = $this->addTaxes($frete['valor']);
+
+            //var_dump($frete['valor']);
+
             // skip if tax is zero
             if ($frete['valor'] <= 0) {
                 continue;
@@ -130,6 +133,7 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
     {
         $servicesList = Mage::getStoreConfig('carriers/' . $this->_code . '/servicos');
         $arr          = explode(',', $servicesList);
+
         return $arr;
     }
 
@@ -145,22 +149,60 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
         // ignora e o módulo estiver desabilitado
         if (!Mage::getStoreConfig('carriers/' . $this->_code . '/active')) {
             Mage::log('Rosantoz_Correios: module disabled');
+
             return false;
         }
 
         // ignora se o país de destino não for o Brasil
         if ($request->getDestCountryId() != 'BR') {
             Mage::log('Rosantoz_Correios: delivery address is outside Brazil');
+
             return false;
         }
 
         // ignora se a encomenda tem mais de 30kg
         if ($request->getPackageWeight() >= 30) {
             Mage::log('Rosantoz_Correios: package is over 30 kilos');
+
             return false;
         }
 
         return true;
 
+    }
+
+    /**
+     * Adiciona a taxa adicional ao valor do frete
+     *
+     * @param string $rate Valor do frete
+     *
+     * @return mixed
+     */
+    protected function addTaxes($rate)
+    {
+        $taxType = Mage::getStoreConfig('carriers/' . $this->_code . '/tipo_taxa_adicional');
+
+        if($rate <= 0) {
+            return 0;
+        }
+
+        // no tax
+        if ($taxType <= 0) {
+            return $rate;
+        }
+
+        $taxValue = Mage::getStoreConfig('carriers/' . $this->_code . '/taxa_adicional');
+
+        // fixed value
+        if ($taxType == 1) {
+            return $rate + $taxValue;
+        }
+
+        // percentage
+        if ($taxType == 2) {
+            $taxValue = $rate * $taxValue / 100;
+
+            return $rate + $taxValue;
+        }
     }
 }
