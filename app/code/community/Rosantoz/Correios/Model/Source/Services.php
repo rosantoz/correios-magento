@@ -32,6 +32,7 @@ class Rosantoz_Correios_Model_Source_Services
             array('value' => '40010', 'label' => Mage::helper('adminhtml')->__('SEDEX')),
             array('value' => '40215', 'label' => Mage::helper('adminhtml')->__('SEDEX 10')),
             array('value' => '40290', 'label' => Mage::helper('adminhtml')->__('SEDEX HOJE')),
+            array('value' => '81019', 'label' => Mage::helper('adminhtml')->__('E-SEDEX')),
         );
     }
 }

@@ -34,6 +34,7 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
     const TIPO_SEDEX_10       = '40215';
     const TIPO_SEDEX_HOJE     = '40290';
     const TIPO_PAC            = '41106';
+    const TIPO_E_SEDEX        = '81019';
     const RETIRADA            = '1';
     const GRATIS              = '2';
     const PADRAO              = '3';
@@ -43,6 +44,8 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
 
     protected $cepOrigem;
     protected $cepDestino;
+    protected $contrato;
+    protected $senha;
     protected $peso;
     protected $altura;
     protected $comprimento;
@@ -117,6 +120,54 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
     public function getCepOrigem()
     {
         return $this->cepOrigem;
+    }
+
+    /**
+     * Define o número do contrato
+     *
+     * @param string $contrato Nº do contrato com os correios
+     *
+     * @return $this
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $this->_somenteNumeros($contrato);
+
+        return $this;
+    }
+
+    /**
+     * Retorna o número do contrato
+     *
+     * @return string
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    /**
+     * Define a senha
+     *
+     * @param string $senha Senha
+     *
+     * @return $this
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+
+        return $this;
+    }
+
+    /**
+     * Retorna a senha
+     *
+     * @return string
+     */
+    public function getSenha()
+    {
+        return $this->senha;
     }
 
     /**
@@ -336,6 +387,7 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
      * 40215 SEDEX 10, sem contrato
      * 40290 SEDEX Hoje, sem contrato
      * 41106 PAC sem contrato
+     * 810019 e-SEDEX com contrato
      *
      * Lança uma exceção caso um valor diferente seja passado como parâmetro
      *
@@ -352,9 +404,7 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
             self::TIPO_SEDEX_10       => true,
             self::TIPO_SEDEX_A_COBRAR => true,
             self::TIPO_SEDEX_HOJE     => true,
-            self::RETIRADA            => true,
-            self::PADRAO              => true,
-            self::GRATIS              => true,
+            self::TIPO_E_SEDEX        => true,
         );
 
         if (isset($whiteList[$servico])) {
@@ -413,6 +463,7 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
         ) {
             $this->descricao = \Util::getServiceECT($this->getServico())
                 . " para " . \Util::formatCEP($this->getCepDestino());
+
             return $this->descricao;
         } else {
             return $this->descricao;
@@ -430,8 +481,8 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
         $url = $this->webServiceUrl . $this->webServiceUrlPath . '?';
 
         $params = array(
-            "nCdEmpresa"          => '',
-            "sDsSenha"            => '',
+            "nCdEmpresa"          => $this->getContrato(),
+            "sDsSenha"            => $this->getSenha(),
             "nCdServico"          => $this->getServico(),
             "sCepOrigem"          => $this->getCepOrigem(),
             "sCepDestino"         => $this->getCepDestino(),
@@ -549,6 +600,7 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
         } else {
             throw new \Exception('Resposta XML malformada');
         }
+
         return $resposta;
     }
 
@@ -559,6 +611,7 @@ class Rosantoz_Correios_Model_Carrier_Correios_Rscorreios
             '40010' => 'SEDEX',
             '40215' => 'SEDEX 10',
             '40290' => 'SEDEX HOJE',
+            '81019' => 'E-SEDEX',
         );
 
         return $servicos[$codigoServico];

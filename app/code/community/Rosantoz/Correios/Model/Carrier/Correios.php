@@ -53,12 +53,16 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
 
 
         foreach ($methods as $rMethod) {
-            $method        = Mage::getModel('shipping/rate_result_method');
-            $correios      = Mage::getModel('rosantoz_correios/carrier_correios_rscorreios');
-            $origin        = Mage::getStoreConfig('shipping/origin/postcode');
-            $packageFormat = $this->getConfigData('formato');
+            $method         = Mage::getModel('shipping/rate_result_method');
+            $correios       = Mage::getModel('rosantoz_correios/carrier_correios_rscorreios');
+            $origin         = Mage::getStoreConfig('shipping/origin/postcode');
+            $packageFormat  = $this->getConfigData('formato');
+            $contractNumber = Mage::getStoreConfig('carriers/' . $this->_code . '/contrato');
+            $contractPass   = Mage::getStoreConfig('carriers/' . $this->_code . '/senha_correios');
 
             $frete = $correios
+                ->setContrato($contractNumber)
+                ->setSenha($contractPass)
                 ->setCepOrigem($origin)
                 ->setCepDestino($request->getDestPostcode())
                 ->setPeso($request->getPackageWeight())
@@ -182,7 +186,7 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
     {
         $taxType = Mage::getStoreConfig('carriers/' . $this->_code . '/tipo_taxa_adicional');
 
-        if($rate <= 0) {
+        if ($rate <= 0) {
             return 0;
         }
 
