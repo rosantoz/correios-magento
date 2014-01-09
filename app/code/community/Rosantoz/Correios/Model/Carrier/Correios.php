@@ -92,7 +92,7 @@ class Rosantoz_Correios_Model_Carrier_Correios extends Mage_Shipping_Model_Carri
 
             // erros
             if ($frete['erro'] != 0) {
-                Mage::log('Rosantoz_Correios: ' . $frete['msg_erro'] . '');
+                Mage::log('Rosantoz_Correios: ' . $frete['msgErro'] . '');
             }
 
             $frete['valor'] = $this->addTaxes($frete['valor']);
