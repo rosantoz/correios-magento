@@ -7,7 +7,7 @@ Permite utilizar SEDEX, PAC, SEDEX 10 E SEDEX HOJE.
 Instruções de instalação
 ===========
 
-1. Faça o download dos arquivos deste projeto clicando em 'zip' no topo desta página
+1. Faça o download dos arquivos deste projeto clicando em 'Download ZIP' a baixo do menu a direita dessa desta página
 2. Descompacte os arquivos e envios para a pasta raiz de seu magento. As pastas já estão na ordem correta.
 3. No admin do magento, vá até "Sistema" >> "Configuração" >> "Avançado" e verifique se o módulo "Rosantoz_Correios" está ativado. Se não estiver ative-o.
 4. Vá em "Sistema" >> "Configurações" >> "Definições de Envio" e insira suas informações. O CEP será usado como origem para o cálculo do frete.
